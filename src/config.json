@@ -1,7 +1,7 @@
 {
     "DESIGN_NAME": "tt_um_nguyenvandongsn97_7seg_decoder",
     "VERILOG_FILES": [
-        "dir::project.v"
+        "dir::src/project.v"
     ],
     "CLOCK_PERIOD": 0,
     "CLOCK_PORT": null,
