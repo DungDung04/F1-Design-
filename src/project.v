@@ -6,12 +6,16 @@ module tt_um_nguyenvandongsn97_7seg_decoder (
     input  wire [7:0] uio_in,   // Các chân đầu vào/ra hai chiều (Không dùng)
     output wire [7:0] uio_out,  // Đầu ra cho các chân hai chiều (Đặt bằng 0)
     output wire [7:0] uio_oe,   // Chân cho phép xuất dữ liệu điều khiển uio (Đặt bằng 0 = Input)
-    input  wire       ena,      // CHÂN BẮT BUỘC: Lệnh kích hoạt module từ Tiny Tapeout (Không dùng)
+    input  wire       ena,      // Lệnh kích hoạt module từ Tiny Tapeout (Không dùng)
     input  wire       clk,      // Xung nhịp hệ thống (Không dùng trong mạch tổ hợp)
     input  wire       rst_n     // Chân Reset tích cực mức thấp (Không dùng)
 );
 
-    // 1. Quản lý các chân không sử dụng để tránh lỗi Floating/Trạng thái lơ lửng trên chip
+    // 1. Quản lý các chân không sử dụng để xóa bỏ lỗi UNUSEDSIGNAL của Verilator
+    wire _dummy_pins;
+    assign _dummy_pins = |{ui_in[7:4], uio_in, ena, clk, rst_n};
+
+    // Gán các chân uio đầu ra về mức thấp an toàn
     assign uio_out = 8'b00000000;
     assign uio_oe  = 8'b00000000;
     
