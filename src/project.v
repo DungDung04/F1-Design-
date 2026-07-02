@@ -6,6 +6,7 @@ module tt_um_nguyenvandongsn97_7seg_decoder (
     input  wire [7:0] uio_in,   // Các chân đầu vào/ra hai chiều (Không dùng)
     output wire [7:0] uio_out,  // Đầu ra cho các chân hai chiều (Đặt bằng 0)
     output wire [7:0] uio_oe,   // Chân cho phép xuất dữ liệu điều khiển uio (Đặt bằng 0 = Input)
+    input  wire       ena,      // CHÂN BẮT BUỘC: Lệnh kích hoạt module từ Tiny Tapeout (Không dùng)
     input  wire       clk,      // Xung nhịp hệ thống (Không dùng trong mạch tổ hợp)
     input  wire       rst_n     // Chân Reset tích cực mức thấp (Không dùng)
 );
@@ -25,7 +26,7 @@ module tt_um_nguyenvandongsn97_7seg_decoder (
     assign uo_out[6:0] = led_out;
 
     // 3. Khối mạch tổ hợp giải mã hiển thị ký tự Hex (0-9, A-F)
-    // Lưu ý: Cấu hình dành cho LED Anode chung (Mức 0 = Sáng, Mức 1 = Tắt)
+    // Cấu hình dành cho LED Anode chung (Mức 0 = Sáng, Mức 1 = Tắt)
     always @(*) begin
         case (bcd)
             // Định dạng chuỗi bit: g-f-e-d-c-b-a
