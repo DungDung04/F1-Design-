@@ -1,22 +1,24 @@
-# Sample testbench for a Tiny Tapeout project
+# Testbench for Tiny Tapeout 7-Segment Decoder Project
 
-This is a sample testbench for a Tiny Tapeout project. It uses [cocotb](https://docs.cocotb.org/en/stable/) to drive the DUT and check the outputs.
-See below to get started or for more information, check the [website](https://tinytapeout.com/hdl/testing/).
+This testbench is configured to verify the behavior of the **BCD to 7-Segment LED Decoder** project using [cocotb](https://docs.cocotb.org/en/stable/). It drives the input pins with binary values (0-15) and validates the corresponding segment outputs.
 
 ## Setting up
 
-1. Edit [Makefile](Makefile) and modify `PROJECT_SOURCES` to point to your Verilog files.
-2. Edit [tb.v](tb.v) and replace `tt_um_example` with your module name.
+Before running the simulation, ensure you have completed the setup steps required by the Tiny Tapeout template:
+
+1. **Verify Makefile**: Confirm that `PROJECT_SOURCES = project.v` in your [Makefile](Makefile) points correctly to your Verilog source inside the `src/` directory.
+2. **Update tb.v**: Open [tb.v](tb.v) and ensure that you have replaced the default template module instantiation with your custom top module name:  
+   `tt_um_nguyenvandongsn97_7seg_decoder`
 
 ## How to run
 
-To run the RTL simulation:
+To run the RTL simulation (pure functional logic verification):
 
 ```sh
 make -B
 ```
 
-To run gatelevel simulation, first harden your project and copy `../runs/wokwi/results/final/verilog/gl/{your_module_name}.v` to `gate_level_netlist.v`.
+To run the Gate-Level simulation (verifying the timing and behavior after the digital hardening process), first trigger your GDS flow, download/locate the synthesized netlist file, and save it as `gate_level_netlist.v` inside this test directory.
 
 Then run:
 
@@ -24,23 +26,26 @@ Then run:
 make -B GATES=yes
 ```
 
-If you wish to save the waveform in VCD format instead of FST format, edit tb.v to use `$dumpfile("tb.vcd");` and then run:
+### Waveform Configuration
+By default, the simulation captures signal transactions in the compact FST format. If you prefer to generate a standard VCD file instead, edit [tb.v](tb.v) to use `$dumpfile("tb.vcd");` and execute:
 
 ```sh
 make -B FST=
 ```
 
-This will generate `tb.vcd` instead of `tb.fst`.
+This will output a `tb.vcd` file instead of `tb.fst`.
 
 ## How to view the waveform file
 
-Using GTKWave
+### Using GTKWave
+To inspect input switches (`ui_in`) and segment drivers (`uo_out`) over time:
 
 ```sh
 gtkwave tb.fst tb.gtkw
 ```
 
-Using Surfer
+### Using Surfer
+A modern alternative web/terminal waveform viewer:
 
 ```sh
 surfer tb.fst
