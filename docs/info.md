@@ -1,20 +1,41 @@
-<!---
+project:
+  title: "3-input Full Adder"
+  author: "Nguyen Van Dong Dong"
+  discord: ""
+  description: "A basic combinational full adder with A, B, Cin, Sum, and Cout."
+  language: "Verilog"
+  clock_hz: 0
+  tiles: "1x1"
+  top_module: "tt_um_nguyenvandongsn97_sys_full_adder"
+  source_files:
+    - "project.v"
 
-This file is used to generate your project datasheet. Please fill in the information below and delete any unused
-sections.
+pinout:
+  ui[0]: "A"
+  ui[1]: "B"
+  ui[2]: "Cin"
+  ui[3]: ""
+  ui[4]: ""
+  ui[5]: ""
+  ui[6]: ""
+  ui[7]: ""
 
-You can also include images in this folder and reference them in the markdown. Each image must be less than
-512 kb in size, and the combined size of all images must be less than 1 MB.
--->
+  uo[0]: "Sum"
+  uo[1]: "Cout"
+  uo[2]: ""
+  uo[3]: ""
+  uo[4]: ""
+  uo[5]: ""
+  uo[6]: ""
+  uo[7]: ""
 
-## How it works
+  uio[0]: ""
+  uio[1]: ""
+  uio[2]: ""
+  uio[3]: ""
+  uio[4]: ""
+  uio[5]: ""
+  uio[6]: ""
+  uio[7]: ""
 
-Explain how your project works
-
-## How to test
-
-Explain how to use your project
-
-## External hardware
-
-List external hardware used in your project (e.g. PMOD, LED display, etc), if any
+yaml_version: 6
