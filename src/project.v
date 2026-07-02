@@ -11,9 +11,8 @@ module tt_um_nguyenvandongsn97_7seg_decoder (
     input  wire       rst_n     // Chân Reset tích cực mức thấp (Không dùng)
 );
 
-    // 1. Quản lý các chân không sử dụng để xóa bỏ lỗi UNUSEDSIGNAL của Verilator
-    wire _dummy_pins;
-    assign _dummy_pins = |{ui_in[7:4], uio_in, ena, clk, rst_n};
+    // Sử dụng lệnh này để bảo Verilator bỏ qua các chân không dùng đến, tránh lỗi Build GDS
+    /* verilator lint_off UNUSEDSIGNAL */
 
     // Gán các chân uio đầu ra về mức thấp an toàn
     assign uio_out = 8'b00000000;
@@ -22,14 +21,14 @@ module tt_um_nguyenvandongsn97_7seg_decoder (
     // Chân đầu ra uo_out[7] không dùng để điều khiển LED nên gán cố định về 0
     assign uo_out[7] = 1'b0; 
 
-    // 2. Trích xuất dữ liệu đầu vào và khai báo thanh ghi lưu trạng thái LED
+    // Trích xuất dữ liệu đầu vào và khai báo thanh ghi lưu trạng thái LED
     wire [3:0] bcd = ui_in[3:0]; // Nhận giá trị số từ 4 switch đầu vào (0 đến 15)
     reg [6:0] led_out;           // Lưu trạng thái của 7 phân đoạn (g, f, e, d, c, b, a)
 
     // Ánh xạ trực tiếp 7 bit kết quả vào các chân đầu ra uo_out[6:0]
     assign uo_out[6:0] = led_out;
 
-    // 3. Khối mạch tổ hợp giải mã hiển thị ký tự Hex (0-9, A-F)
+    // Khối mạch tổ hợp giải mã hiển thị ký tự Hex (0-9, A-F)
     // Cấu hình dành cho LED Anode chung (Mức 0 = Sáng, Mức 1 = Tắt)
     always @(*) begin
         case (bcd)
@@ -53,5 +52,7 @@ module tt_um_nguyenvandongsn97_7seg_decoder (
             default: led_out = 7'b1111111; // Trường hợp lỗi: Tắt toàn bộ LED
         endcase
     end
+
+    /* verilator lint_on UNUSEDSIGNAL */
 
 endmodule
