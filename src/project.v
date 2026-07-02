@@ -11,45 +11,42 @@ module tt_um_nguyenvandongsn97_7seg_decoder (
     input  wire       rst_n     // Chân Reset tích cực mức thấp (Không dùng)
 );
 
-    // Sử dụng lệnh này để bảo Verilator bỏ qua các chân không dùng đến, tránh lỗi Build GDS
+    // Tắt cảnh báo tín hiệu không sử dụng từ Verilator
     /* verilator lint_off UNUSEDSIGNAL */
 
-    // Gán các chân uio đầu ra về mức thấp an toàn
+    // 1. Quản lý các chân uio không sử dụng
     assign uio_out = 8'b00000000;
     assign uio_oe  = 8'b00000000;
     
-    // Chân đầu ra uo_out[7] không dùng để điều khiển LED nên gán cố định về 0
-    assign uo_out[7] = 1'b0; 
+    // 2. Trích xuất dữ liệu đầu vào và khai báo trạng thái LED
+    wire [3:0] bcd = ui_in[3:0]; 
+    reg [6:0] led_out;           
 
-    // Trích xuất dữ liệu đầu vào và khai báo thanh ghi lưu trạng thái LED
-    wire [3:0] bcd = ui_in[3:0]; // Nhận giá trị số từ 4 switch đầu vào (0 đến 15)
-    reg [6:0] led_out;           // Lưu trạng thái của 7 phân đoạn (g, f, e, d, c, b, a)
+    // 3. Ánh xạ ĐỘC LẬP các bit của uo_out để tránh trùng lặp gán tín hiệu
+    assign uo_out[6:0] = led_out;  // 7 bit đầu điều khiển thanh LED a->g
+    assign uo_out[7]   = 1'b0;     // Chỉ gán riêng bit số 7 (không dùng) về 0
 
-    // Ánh xạ trực tiếp 7 bit kết quả vào các chân đầu ra uo_out[6:0]
-    assign uo_out[6:0] = led_out;
-
-    // Khối mạch tổ hợp giải mã hiển thị ký tự Hex (0-9, A-F)
-    // Cấu hình dành cho LED Anode chung (Mức 0 = Sáng, Mức 1 = Tắt)
+    // 4. Khối mạch tổ hợp giải mã hiển thị ký tự Hex (Common Anode)
     always @(*) begin
         case (bcd)
-            // Định dạng chuỗi bit: g-f-e-d-c-b-a
-            4'h0: led_out = 7'b1000000; // Số 0 (Tắt thanh g)
-            4'h1: led_out = 7'b1111001; // Số 1 (Sáng b, c)
-            4'h2: led_out = 7'b0100100; // Số 2 (Tắt f, c)
-            4'h3: led_out = 7'b0110000; // Số 3 (Tắt f, e)
-            4'h4: led_out = 7'b0011001; // Số 4 (Tắt a, d, e)
-            4'h5: led_out = 7'b0010010; // Số 5 (Tắt b, e)
-            4'h6: led_out = 7'b0000010; // Số 6 (Tắt b)
-            4'h7: led_out = 7'b1111000; // Số 7 (Sáng a, b, c)
-            4'h8: led_out = 7'b0000000; // Số 8 (Sáng tất cả các thanh)
-            4'h9: led_out = 7'b0010000; // Số 9 (Tắt thanh e)
-            4'hA: led_out = 7'b0001000; // Chữ A (Tắt thanh d)
-            4'hB: led_out = 7'b0000011; // Chữ b (Tắt a, b)
-            4'hC: led_out = 7'b1000110; // Chữ C (Tắt b, c, g)
-            4'hD: led_out = 7'b0100001; // Chữ d (Tắt a, f)
-            4'hE: led_out = 7'b0000110; // Chữ E (Tắt b, c)
-            4'hF: led_out = 7'b0001110; // Chữ F (Tắt b, c, d)
-            default: led_out = 7'b1111111; // Trường hợp lỗi: Tắt toàn bộ LED
+            // Định dạng chuỗi bit: g-f-e-d-c-b-a (0 = Sáng, 1 = Tắt)
+            4'h0: led_out = 7'b1000000; // Số 0
+            4'h1: led_out = 7'b1111001; // Số 1
+            4'h2: led_out = 7'b0100100; // Số 2
+            4'h3: led_out = 7'b0110000; // Số 3
+            4'h4: led_out = 7'b0011001; // Số 4
+            4'h5: led_out = 7'b0010010; // Số 5
+            4'h6: led_out = 7'b0000010; // Số 6
+            4'h7: led_out = 7'b1111000; // Số 7
+            4'h8: led_out = 7'b0000000; // Số 8
+            4'h9: led_out = 7'b0010000; // Số 9
+            4'hA: led_out = 7'b0001000; // Chữ A
+            4'hB: led_out = 7'b0000011; // Chữ b
+            4'hC: led_out = 7'b1000110; // Chữ C
+            4'hD: led_out = 7'b0100001; // Chữ d
+            4'hE: led_out = 7'b0000110; // Chữ E
+            4'hF: led_out = 7'b0001110; // Chữ F
+            default: led_out = 7'b1111111; // Tắt toàn bộ LED nếu lỗi
         endcase
     end
 
