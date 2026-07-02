@@ -1,41 +1,53 @@
-project:
-  title: "3-input Full Adder"
-  author: "Nguyen Van Dong Dong"
-  discord: ""
-  description: "A basic combinational full adder with A, B, Cin, Sum, and Cout."
-  language: "Verilog"
-  clock_hz: 0
-  tiles: "1x1"
-  top_module: "tt_um_nguyenvandongsn97_sys_full_adder"
-  source_files:
-    - "project.v"
+# 3-input Full Adder
 
-pinout:
-  ui[0]: "A"
-  ui[1]: "B"
-  ui[2]: "Cin"
-  ui[3]: ""
-  ui[4]: ""
-  ui[5]: ""
-  ui[6]: ""
-  ui[7]: ""
+# How it works
 
-  uo[0]: "Sum"
-  uo[1]: "Cout"
-  uo[2]: ""
-  uo[3]: ""
-  uo[4]: ""
-  uo[5]: ""
-  uo[6]: ""
-  uo[7]: ""
+This project implements a one-bit combinational full adder.
 
-  uio[0]: ""
-  uio[1]: ""
-  uio[2]: ""
-  uio[3]: ""
-  uio[4]: ""
-  uio[5]: ""
-  uio[6]: ""
-  uio[7]: ""
+It adds three one-bit input values:
 
-yaml_version: 6
+- `ui_in[0]`: A
+- `ui_in[1]`: B
+- `ui_in[2]`: Cin
+
+The circuit produces two outputs:
+
+- `uo_out[0]`: Sum
+- `uo_out[1]`: Cout
+
+The Boolean equations are:
+
+Sum = A XOR B XOR Cin
+
+Cout = (A AND B) OR (A AND Cin) OR (B AND Cin)
+
+The design is purely combinational. Therefore, the clock and reset
+signals are not used.
+
+# How to test
+
+Set the input values using `ui_in[2:0]`:
+
+- Set `ui_in[0]` to A.
+- Set `ui_in[1]` to B.
+- Set `ui_in[2]` to Cin.
+
+Read the results from:
+
+- `uo_out[0]` for Sum.
+- `uo_out[1]` for Cout.
+
+Use the following truth table:
+
+| A | B | Cin | Sum | Cout |
+|---|---|-----|-----|------|
+| 0 | 0 | 0   | 0   | 0    |
+| 0 | 0 | 1   | 1   | 0    |
+| 0 | 1 | 0   | 1   | 0    |
+| 0 | 1 | 1   | 0   | 1    |
+| 1 | 0 | 0   | 1   | 0    |
+| 1 | 0 | 1   | 0   | 1    |
+| 1 | 1 | 0   | 0   | 1    |
+| 1 | 1 | 1   | 1   | 1    |
+
+No external hardware is required.
