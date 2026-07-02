@@ -5,6 +5,7 @@ FST ?= -fst
 
 TOPLEVEL_LANG ?= verilog
 SRC_DIR = $(PWD)/../src
+# File chứa mạch giải mã 7 đoạn của bạn phải được đặt trong thư mục src/
 PROJECT_SOURCES = project.v
 
 ifneq ($(GATES),yes)
@@ -25,6 +26,7 @@ endif
 COMPILE_ARGS += -I$(SRC_DIR)
 VERILOG_SOURCES += $(PWD)/tb.v
 
+# tb ở đây là module testbench (tb.v) bọc ngoài cùng, giữ nguyên không đổi thành tên module của bạn
 TOPLEVEL = tb
 COCOTB_TEST_MODULES = test
 
