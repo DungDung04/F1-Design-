@@ -1,49 +1,30 @@
-`default_nettype none
+## How it works
 
-module tt_um_nguyenvandongsn97_7seg_decoder (
-    input  wire [7:0] ui_in,    // Các chân đầu vào (chỉ dùng ui_in[3:0])
-    output wire [7:0] uo_out,   // Các chân đầu ra (chỉ dùng uo_out[6:0])
-    input  wire [7:0] uio_in,   // Không dùng trong dự án này
-    output wire [7:0] uio_out,
-    output wire [7:0] uio_oe,
-    input  wire       clk,      // Không dùng vì là mạch tổ hợp
-    input  wire       rst_n     // Không dùng
-);
+This project implements a standard 1-bit D Flip-Flop (DFF) featuring an active-low asynchronous reset pin. It is a fundamental sequential logic building block designed for the Tiny Tapeout platform.
 
-    // Gán các chân uio không dùng về trạng thái an toàn (đầu vào, mức thấp)
-    assign uio_out = 8'b00000000;
-    assign uio_oe  = 8'b00000000;
-    assign uo_out[7] = 1'b0; // Chân dư của đầu ra gán bằng 0
+The circuit captures the data input value from the LSB of `ui_in` (`ui_in[0]`) and transfers it to the LSB of `uo_out` (`uo_out[0]`) on every positive edge (rising edge) of the system clock (`clk`). 
 
-    // Đặt tên gợi nhớ cho đầu vào 4-bit (giá trị từ 0 đến 15)
-    wire [3:0] bcd = ui_in[3:0];
-    reg [6:0] led_out;
+### Asynchronous Reset Behavior
+Unlike a synchronous design, the reset operation does not wait for a clock edge:
+- When the reset pin `rst_n` goes low (`0`), the output state register is cleared to `0` **immediately**, overriding any input signal on the clock or data lines.
+- Normal data latching resumes only after `rst_n` returns to a high logic level (`1`).
 
-    // Ánh xạ đầu ra ra các chân uo_out
-    // uo_out[0]=a, [1]=b, [2]=c, [3]=d, [4]=e, [5]=f, [6]=g
-    assign uo_out[6:0] = led_out;
+All unused input/output ports and bidirectional `uio` pins are safely driven to ground (`0`) within the hardware to prevent floating nets and satisfy strict linting requirements.
 
-    always @(*) begin
-        case (bcd)
-            // Cấu trúc bit: g f e d c b a (Mức 0 = Sáng, Mức 1 = Tắt)
-            4'h0: led_out = 7'b1000000; // Hiển thị số 0
-            4'h1: led_out = 7'b1111001; // Hiển thị số 1
-            4'h2: led_out = 7'b0100100; // Hiển thị số 2
-            4'h3: led_out = 7'b0110000; // Hiển thị số 3
-            4'h4: led_out = 7'b0011001; // Hiển thị số 4
-            4'h5: led_out = 7'b0010010; // Hiển thị số 5
-            4'h6: led_out = 7'b0000010; // Hiển thị số 6
-            4'h7: led_out = 7'b1111000; // Hiển thị số 7
-            4'h8: led_out = 7'b0000000; // Hiển thị số 8
-            4'h9: led_out = 7'b0010000; // Hiển thị số 9
-            4'hA: led_out = 7'b0001000; // Hiển thị chữ A
-            4'hB: led_out = 7'b0000011; // Hiển thị chữ b
-            4'hC: led_out = 7'b1000110; // Hiển thị chữ C
-            4'hD: led_out = 7'b0100001; // Hiển thị chữ d
-            4'hE: led_out = 7'b0000110; // Hiển thị chữ E
-            4'hF: led_out = 7'b0001110; // Hiển thị chữ F
-            default: led_out = 7'b1111111; // Tắt hết đèn nếu lỗi
-        endcase
-    end
+## How to test
 
-endmodule
+The project includes an automated Python testbench utilizing `cocotb` to simulate both synchronous state loading and asynchronous clearing events.
+
+### Manual Verification Steps
+1. Connect `ui_in[0]` to an input switch (this acts as your **D Input** data line).
+2. Connect `uo_out[0]` to an external monitoring LED (this acts as your **Q Output** state line).
+3. Connect `rst_n` to a reset toggle switch (Active-low, keep it at `1` for normal operation).
+4. Apply a steady clock signal to the `clk` pin.
+5. **Test Data Latching**: Change the state of the switch `ui_in[0]` and observe that the LED on `uo_out[0]` only updates its state at the exact moment the clock completes a transition from low to high.
+6. **Test Asynchronous Reset**: While the LED is active (`1`), flip the `rst_n` switch to `0`. The LED should turn OFF instantly, regardless of the clock's current state or phase.
+
+## External hardware
+
+- **Clock Source**: A steady digital square-wave clock signal (configured for up to 10 MHz in static timing analysis).
+- **Switches & Pulldowns**: Standard mechanical toggle switches or push buttons connected to inputs with appropriate pulldown resistors.
+- **Status Indicator**: 1x LED connected to `uo_out[0]` via a current-limiting resistor ($220\Omega$ to $330\Omega$) to display the output bit state.
