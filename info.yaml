@@ -11,6 +11,7 @@ project:
     - "project.v"
 
 pinout:
+  # Cấu hình chân đầu vào (8 chân từ 0 đến 7)
   ui[0]: "D Input"
   ui[1]: ""
   ui[2]: ""
@@ -20,6 +21,7 @@ pinout:
   ui[6]: ""
   ui[7]: ""
 
+  # Cấu hình chân đầu ra (8 chân từ 0 đến 7)
   uo[0]: "Q Output"
   uo[1]: ""
   uo[2]: ""
@@ -29,6 +31,7 @@ pinout:
   uo[6]: ""
   uo[7]: ""
 
+  # Cấu hình chân hai chiều (8 chân từ 0 đến 7)
   uio[0]: ""
   uio[1]: ""
   uio[2]: ""
