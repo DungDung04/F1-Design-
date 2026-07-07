@@ -18,7 +18,8 @@ module tb (
         #1;
     end
 
-    tt_um_nguyentrungdung04_dff_async user_project (
+tt_um_nguyentrungdung04_dff_async user_project (
+
 `ifdef GL_TEST
         .VPWR(1'b1),
         .VGND(1'b0),
