@@ -12,16 +12,14 @@ module tt_um_nguyentrungdung04_dff_async (
     input  wire rst_n
 );
 
-    // Không sử dụng các chân này nhưng vẫn khai báo để tránh warning
-    wire _unused = &{ena, uio_in};
-
-    // D input
-    wire d = ui_in[0];
-
-    // Q output
+    wire d;
     wire q;
 
-    // D Flip-Flop with Asynchronous Active-Low Reset
+    assign d = ui_in[0];
+
+    // Tránh warning do các tín hiệu không dùng
+    wire _unused = &{ena, uio_in, ui_in[7:1], 1'b0};
+
     dff_async u_dff (
         .clk(clk),
         .rst_n(rst_n),
@@ -29,10 +27,7 @@ module tt_um_nguyentrungdung04_dff_async (
         .q(q)
     );
 
-    // Chỉ sử dụng uo_out[0]
     assign uo_out = {7'b0000000, q};
-
-    // Không sử dụng GPIO hai chiều
     assign uio_out = 8'b00000000;
     assign uio_oe  = 8'b00000000;
 
@@ -40,18 +35,18 @@ endmodule
 
 
 module dff_async (
-    input  wire clk,
-    input  wire rst_n,
-    input  wire d,
-    output reg  q
+    input wire clk,
+    input wire rst_n,
+    input wire d,
+    output reg q
 );
 
-    always @(posedge clk or negedge rst_n) begin
-        if (!rst_n)
-            q <= 1'b0;
-        else
-            q <= d;
-    end
+always @(posedge clk or negedge rst_n) begin
+    if (!rst_n)
+        q <= 1'b0;
+    else
+        q <= d;
+end
 
 endmodule
 
