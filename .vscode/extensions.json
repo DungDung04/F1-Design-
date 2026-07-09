@@ -1,6 +1,12 @@
 {
-  "recommendations": [
-    "mshr-h.veriloghdl",
-    "surfer-project.surfer"
-  ]
+    "recommendations": [
+        "mshr-h.veriloghdl",
+        "eirikpre.systemverilog",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-vscode.cpptools",
+        "GitHub.vscode-github-actions",
+        "redhat.vscode-yaml",
+        "eamodio.gitlens"
+    ]
 }
