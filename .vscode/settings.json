@@ -1,4 +1,36 @@
 {
-  "verilog.linting.linter": "verilator",
-  "verilog.formatting.verilogHDL.formatter": "verible-verilog-format"
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false,
+
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "files.autoSave": "afterDelay",
+
+    "editor.formatOnSave": true,
+
+    "python.defaultInterpreterPath": "python3",
+
+    "python.analysis.typeCheckingMode": "basic",
+
+    "files.associations": {
+        "*.v": "verilog",
+        "*.sv": "systemverilog",
+        "*.vh": "verilog"
+    },
+
+    "[verilog]": {
+        "editor.wordWrap": "off",
+        "editor.tabSize": 4
+    },
+
+    "[python]": {
+        "editor.formatOnSave": true
+    },
+
+    "terminal.integrated.defaultProfile.linux": "bash",
+
+    "git.enableSmartCommit": true,
+
+    "yaml.format.enable": true
 }
