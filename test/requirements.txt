@@ -1,4 +1,1 @@
-cocotb==1.8.1
-cocotb-bus==0.2.1
-pytest==8.1.1
-
+cocotb>=1.9
