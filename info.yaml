@@ -5,10 +5,7 @@ project:
   author: "DungDung04"
   discord: ""
   description: >
-    A positive-edge triggered D Flip-Flop with an active-low asynchronous reset.
-    The circuit stores the input data on each rising edge of the clock and
-    immediately clears the output whenever the asynchronous reset is asserted.
-
+    Positive-edge triggered D Flip-Flop with active-low asynchronous reset.
   language: "Verilog"
   clock_hz: 50000000
 
@@ -17,7 +14,7 @@ project:
   top_module: "tt_um_nguyentrungdung04_dff_async"
 
   source_files:
-    - "project.v"
+    - project.v
 
 pinout:
   ui[0]: "D input"
