@@ -1,30 +1,70 @@
-## How it works
+# D Flip-Flop with Asynchronous Reset
 
-This project implements a standard 1-bit D Flip-Flop (DFF) featuring an active-low asynchronous reset pin. It is a fundamental sequential logic building block designed for the Tiny Tapeout platform.
+## Project Overview
 
-The circuit captures the data input value from the LSB of `ui_in` (`ui_in[0]`) and transfers it to the LSB of `uo_out` (`uo_out[0]`) on every positive edge (rising edge) of the system clock (`clk`). 
+This project implements a **positive-edge triggered D Flip-Flop with an active-low asynchronous reset**.
 
-### Asynchronous Reset Behavior
-Unlike a synchronous design, the reset operation does not wait for a clock edge:
-- When the reset pin `rst_n` goes low (`0`), the output state register is cleared to `0` **immediately**, overriding any input signal on the clock or data lines.
-- Normal data latching resumes only after `rst_n` returns to a high logic level (`1`).
+The circuit stores the input data (`D`) on the rising edge of the clock (`CLK`). When the asynchronous reset (`RST_N`) is asserted low, the output (`Q`) is immediately cleared to logic `0` regardless of the clock state.
 
-All unused input/output ports and bidirectional `uio` pins are safely driven to ground (`0`) within the hardware to prevent floating nets and satisfy strict linting requirements.
+This design demonstrates one of the most fundamental sequential logic elements used in digital integrated circuits.
 
-## How to test
+---
 
-The project includes an automated Python testbench utilizing `cocotb` to simulate both synchronous state loading and asynchronous clearing events.
+## Features
 
-### Manual Verification Steps
-1. Connect `ui_in[0]` to an input switch (this acts as your **D Input** data line).
-2. Connect `uo_out[0]` to an external monitoring LED (this acts as your **Q Output** state line).
-3. Connect `rst_n` to a reset toggle switch (Active-low, keep it at `1` for normal operation).
-4. Apply a steady clock signal to the `clk` pin.
-5. **Test Data Latching**: Change the state of the switch `ui_in[0]` and observe that the LED on `uo_out[0]` only updates its state at the exact moment the clock completes a transition from low to high.
-6. **Test Asynchronous Reset**: While the LED is active (`1`), flip the `rst_n` switch to `0`. The LED should turn OFF instantly, regardless of the clock's current state or phase.
+- Positive-edge triggered D Flip-Flop
+- Active-low asynchronous reset
+- One-bit data storage
+- Fully synthesizable Verilog RTL
+- Compatible with Tiny Tapeout F1 Design flow
+- Verified using Cocotb testbench
 
-## External hardware
+---
 
-- **Clock Source**: A steady digital square-wave clock signal (configured for up to 10 MHz in static timing analysis).
-- **Switches & Pulldowns**: Standard mechanical toggle switches or push buttons connected to inputs with appropriate pulldown resistors.
-- **Status Indicator**: 1x LED connected to `uo_out[0]` via a current-limiting resistor ($220\Omega$ to $330\Omega$) to display the output bit state.
+## Pin Assignment
+
+| Signal | Direction | Description |
+|---------|-----------|-------------|
+| CLK | Input | System clock |
+| RST_N | Input | Active-low asynchronous reset |
+| D | Input | Data input |
+| Q | Output | Flip-Flop output |
+
+---
+
+## Operation
+
+| CLK | RST_N | D | Q |
+|-----|--------|---|---|
+| ↑ | 1 | 0 | 0 |
+| ↑ | 1 | 1 | 1 |
+| X | 0 | X | 0 |
+
+- On every rising edge of the clock, `Q` follows `D`.
+- When `RST_N = 0`, `Q` is immediately reset to `0`, independent of the clock.
+
+---
+
+## Truth Table
+
+| RST_N | Clock | D | Q(next) |
+|--------|-------|---|---------|
+| 0 | X | X | 0 |
+| 1 | Rising Edge | 0 | 0 |
+| 1 | Rising Edge | 1 | 1 |
+| 1 | No Edge | X | Hold |
+
+---
+
+## RTL Description
+
+The flip-flop is implemented using a single sequential always block:
+
+```verilog
+always @(posedge clk or negedge rst_n)
+begin
+    if (!rst_n)
+        q <= 1'b0;
+    else
+        q <= d;
+end
