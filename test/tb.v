@@ -12,7 +12,7 @@ module tb;
     wire [7:0] uio_out;
     wire [7:0] uio_oe;
 
-    project dut (
+    tt_um_nguyentrungdung04_dff_async dut (
         .ui_in(ui_in),
         .uo_out(uo_out),
         .uio_in(uio_in),
