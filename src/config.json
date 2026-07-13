@@ -4,5 +4,5 @@
         "project.v"
     ],
     "CLOCK_PORT": "clk",
-    "FP_PIN_ORDER_CFG": "pin_order.cfg"
+    "IO_PIN_ORDER_CFG": "pin_order.cfg"
 }
