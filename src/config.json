@@ -4,7 +4,6 @@
     "src/project.v"
   ],
   "CLOCK_PORT": "clk",
-  "IO_PIN_ORDER_CFG": "src/pin_order.cfg",
   
   "FP_SIZING": "absolute",
   "DIE_AREA": [0, 0, 160, 111.52],
@@ -12,5 +11,8 @@
   
   "FP_PDN_MULTIPLE_GRID_STATUS": 1,
   "FP_PDN_VLAYERS": "met1 met2 met3",
-  "FP_PDN_HLAYERS": "met1 met2 met3"
+  "FP_PDN_HLAYERS": "met1 met2 met3",
+
+  "FP_PIN_ORDER_CFG": null,
+  "FP_IO_MODE": 1
 }
