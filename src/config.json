@@ -1,8 +1,8 @@
 {
-    "DESIGN_NAME": "tt_um_nguyentrungdung04_dff_async",
-    "VERILOG_FILES": [
-        "project.v"
-    ],
-    "CLOCK_PORT": "clk",
-    "IO_PIN_ORDER_CFG": "pin_order.cfg"
+  "DESIGN_NAME": "tt_um_nguyentrungdung04_dff_async",
+  "VERILOG_FILES": [
+    "src/project.v"
+  ],
+  "CLOCK_PORT": "clk",
+  "IO_PIN_ORDER_CFG": "src/pin_order.cfg"
 }
