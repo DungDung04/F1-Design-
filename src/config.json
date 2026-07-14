@@ -1,16 +1,8 @@
 {
   "DESIGN_NAME": "tt_um_nguyentrungdung04_dff_async",
-  "VERILOG_FILES": ["src/project.v"],
+  "VERILOG_FILES": [
+    "src/project.v"
+  ],
   "CLOCK_PORT": "clk",
-  "DIE_AREA": [0, 0, 161.00, 111.52],
-
-  "RT_MAX_LAYER": "met4",
-
-  "FP_PDN_MULTIPLE_GRID_STATUS": 1,
-  "FP_PDN_VLAYERS": "met4",
-  "FP_PDN_HLAYERS": "met3",
-  "FP_PDN_VOFFSET": 2,
-  "FP_PDN_VPITCH": 40,
-  "FP_PDN_HOFFSET": 2,
-  "FP_PDN_HPITCH": 40
+  "IO_PIN_ORDER_CFG": "src/pin_order.cfg"
 }
