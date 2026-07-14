@@ -4,6 +4,7 @@
     "src/project.v"
   ],
   "CLOCK_PORT": "clk",
+  "IO_PIN_ORDER_CFG": "src/pin_order.cfg",
   
   "FP_SIZING": "absolute",
   "DIE_AREA": [0, 0, 160, 111.52],
@@ -13,11 +14,6 @@
   "FP_PDN_VLAYERS": "met1 met2 met3",
   "FP_PDN_HLAYERS": "met1 met2 met3",
 
-  "FP_PIN_ORDER_CFG": null,
-  "FP_IO_MODE": 1,
-
   "RT_MAX_LAYER": "met4",
-  "VDD_NETS": ["VPWR"],
-  "GND_NETS": ["VGND"],
-  "FP_PDN_AUTO_CONNECT": 1
+  "FP_IO_BYPASS_CHECK": 1
 }
