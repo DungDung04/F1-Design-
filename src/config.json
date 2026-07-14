@@ -14,5 +14,10 @@
   "FP_PDN_HLAYERS": "met1 met2 met3",
 
   "FP_PIN_ORDER_CFG": null,
-  "FP_IO_MODE": 1
+  "FP_IO_MODE": 1,
+
+  "RT_MAX_LAYER": "met4",
+  "VDD_NETS": ["VPWR"],
+  "GND_NETS": ["VGND"],
+  "FP_PDN_AUTO_CONNECT": 1
 }
